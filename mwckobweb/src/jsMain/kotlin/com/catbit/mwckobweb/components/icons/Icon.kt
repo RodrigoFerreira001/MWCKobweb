@@ -1,10 +1,13 @@
 package com.catbit.mwckobweb.components.icons
 
 import androidx.compose.runtime.Composable
+import com.catbit.mwckobweb.foundation.locals.LocalIconSize
 import com.varabyte.kobweb.compose.css.UserSelect
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.userSelect
 import com.varabyte.kobweb.compose.ui.toAttrs
+import org.jetbrains.compose.web.css.CSSColorValue
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
@@ -16,14 +19,18 @@ fun Icon(
     weight: SymbolWeight = SymbolWeight.Normal,
     grade: SymbolGrade = SymbolGrade.Normal,
     opticalSize: SymbolOpticalSize = SymbolOpticalSize.Size24,
+    tint: CSSColorValue? = null,
     fill: Boolean = false,
 ) {
+    val iconSize = LocalIconSize.current
     Span(
         attrs = modifier
             .userSelect(UserSelect.None)
             .toAttrs {
                 classes(style.style)
                 val fontVariationSetting = buildString {
+                    iconSize?.let { append("font-size: $iconSize !important;") }
+                    tint?.let { append("color: $tint;") }
                     append("font-variation-settings: ")
                     append("\"FILL\" ${if(fill) "1" else "0"}, ")
                     append("\"wght\" ${weight.weight}, ")

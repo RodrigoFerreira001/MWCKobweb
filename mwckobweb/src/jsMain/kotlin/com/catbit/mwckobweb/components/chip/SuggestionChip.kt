@@ -1,36 +1,37 @@
-package com.catbit.mwckobweb.components.buttons.common_buttons
+package com.catbit.mwckobweb.components.chip
 
 import androidx.compose.runtime.Composable
 import com.catbit.mwckobweb.foundation.text.FontFamily
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
-import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.styleModifier
 import org.jetbrains.compose.web.css.CSSColorValue
+import org.jetbrains.compose.web.css.px
 
 @Composable
-fun ElevatedButton(
+fun SuggestionChip(
     modifier: Modifier = Modifier,
+    label: String,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    containerColor: CSSColorValue = MaterialTheme.colorScheme.surface,
+    outlineColor: CSSColorValue = MaterialTheme.colorScheme.outline,
     contentColor: CSSColorValue = MaterialTheme.colorScheme.onSurface,
-    shape: CSSLengthOrPercentageNumericValue = MaterialTheme.shape.full,
+    shape: CSSLengthOrPercentageNumericValue = MaterialTheme.shape.small,
     font: FontFamily? = MaterialTheme.typography.labelLarge.fontFamily,
-    content: @Composable RowScope.() -> Unit
 ) {
-    BaseButton(
+    BaseChip(
         modifier = modifier
             .styleModifier {
-                property("--md-elevated-button-container-color", containerColor)
-                property("--md-elevated-button-container-shape", shape)
-                property("--md-elevated-button-label-text-color", contentColor)
-                font?.let { property("--md-elevated-button-label-text-font", font.name) }
+                property("--md-suggestion-chip-outline-color", outlineColor)
+                property("--md-suggestion-chip-container-shape", shape)
+                property("--md-suggestion-chip-label-text-color", contentColor)
+                font?.let { property("--md-suggestion-chip-label-text-font", font.name) }
             },
+        label = label,
         onClick = onClick,
-        buttonStyle = "md-elevated-button",
+        chipStyle = "md-suggestion-chip",
         enabled = enabled,
-        content = content
+        icon = null
     )
 }

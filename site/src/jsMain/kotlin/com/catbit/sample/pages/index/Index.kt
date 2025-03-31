@@ -1,93 +1,218 @@
 package com.catbit.sample.pages.index
 
 import androidx.compose.runtime.*
-import com.catbit.mwckobweb.components.app_bars.top_app_bars.LargeTopAppBar
-import com.catbit.mwckobweb.components.app_bars.top_app_bars.MediumTopAppBar
-import com.catbit.mwckobweb.components.app_bars.top_app_bars.SmallTopAppBar
 import com.catbit.mwckobweb.components.buttons.common_buttons.FilledButton
-import com.catbit.mwckobweb.components.buttons.icon_button.FilledIconButton
+import com.catbit.mwckobweb.components.buttons.common_buttons.TextButton
 import com.catbit.mwckobweb.components.buttons.icon_button.IconButton
 import com.catbit.mwckobweb.components.icons.Icon
-import com.catbit.mwckobweb.components.progress_indicators.CircularProgressIndicator
-import com.catbit.mwckobweb.components.progress_indicators.LinearProgressIndicator
-import com.catbit.mwckobweb.components.search_bar.SearchBar
+import com.catbit.mwckobweb.components.navigation.NavigationRail
+import com.catbit.mwckobweb.components.navigation.NavigationRailItem
+import com.catbit.mwckobweb.components.overlays.dialog.Dialog
+import com.catbit.mwckobweb.components.overlays.modal_sheet.ModalSheet
+import com.catbit.mwckobweb.components.overlays.navigation_drawer.NavigationDrawer
+import com.catbit.mwckobweb.components.overlays.navigation_drawer.NavigationDrawerItem
+import com.catbit.mwckobweb.components.overlays.snackbar.Snackbar
+import com.catbit.mwckobweb.components.overlays.snackbar.SnackbarDuration
 import com.catbit.mwckobweb.components.text.Text
-import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
-import com.varabyte.kobweb.silk.components.icons.MoonIcon
-import com.varabyte.kobweb.silk.components.icons.SunIcon
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.shapes.RectF
-import com.varabyte.kobweb.silk.theme.shapes.clip
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
 @Page("/")
 @Composable
 fun Index() {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .overflow {
-                y(Overflow.Auto)
-            }
-            .background(MaterialTheme.colorScheme.background)
+    var isNavDrawerOpened by remember { mutableStateOf(false) }
+    var isModalSheetOpened by remember { mutableStateOf(false) }
+    var isDialogOpened by remember { mutableStateOf(false) }
+    var isSnackbarOpened by remember { mutableStateOf(false) }
+
+    var selectedNavigation by remember { mutableStateOf("home") }
+    val navigations = listOf(
+        "Home" to "home",
+        "Forum" to "forum",
+        "Settings" to "settings"
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .overflow(Overflow.Hidden)
+        ) {
+            NavigationRail(
+                modifier = Modifier.fillMaxHeight(),
+                menu = {
+                    IconButton(
+                        onClick = {
+                            isNavDrawerOpened = true
+                        }
+                    ) {
+                        Icon("menu")
+                    }
+                }
+            ) {
+                navigations.forEach { (text, icon) ->
+                    NavigationRailItem(
+                        selected = icon == selectedNavigation,
+                        onClick = {
+                            selectedNavigation = icon
+                        },
+                        icon = {
+                            Icon(
+                                name = icon,
+                                fill = icon == selectedNavigation
+                            )
+                        },
+                        text = {
+                            Text(text)
+                        }
+                    )
+                }
 
-        SmallTopAppBar(
-            modifier = Modifier.fillMaxWidth(),
-            navigationIcon = {
-                IconButton(
+                Box(
+                    modifier = Modifier.weight(1f),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    var colorMode by ColorMode.currentState
+
+                    IconButton(
+                        onClick = {
+                            colorMode = colorMode.opposite
+                        }
+                    ) {
+                        Icon(if (colorMode.isLight) "dark_mode" else "light_mode")
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(24.px)
+                    .weight(1f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(8.px)
+            ) {
+                FilledButton(
                     onClick = {
-
+                        isModalSheetOpened = true
                     }
                 ) {
-                    Icon("arrow_back")
+                    Text("Open ModalSheet")
                 }
-            },
-            title = {
-                Text("MWC for Kobweb")
-            },
-            actions = {
 
-                var colorMode by ColorMode.currentState
-
-                IconButton(
+                FilledButton(
                     onClick = {
-                        colorMode = colorMode.opposite
+                        isDialogOpened = true
                     }
                 ) {
-                    Icon(if (colorMode.isLight) "dark_mode" else "light_mode")
+                    Text("Open Dialog")
                 }
+
+                FilledButton(
+                    onClick = {
+                        isSnackbarOpened = true
+                    }
+                ) {
+                    Text("Show Snackbar")
+                }
+            }
+        }
+
+
+        ModalSheet(
+            visible = isModalSheetOpened,
+            onDismissRequest = {
+                isModalSheetOpened = false
+            }
+        ) {
+            FilledButton(
+                onClick = {
+                    isModalSheetOpened = false
+                }
+            ) {
+                Text("Close ModalSheet")
+            }
+        }
+
+        Dialog(
+            visible = isDialogOpened,
+            headline = {
+                Text("Dialog example")
+            },
+            supportingText = {
+                Text("This is a dialog example")
+            },
+            buttons = {
+                TextButton(
+                    onClick = {
+                        isDialogOpened = false
+                    }
+                ) {
+                    Text("Ok")
+                }
+            },
+            onDismissRequest = {
+                isDialogOpened = false
             }
         )
 
-        var query by remember { mutableStateOf("") }
-
-        SearchBar(
-            modifier = Modifier.width(50.percent),
-            query = query,
-            onQueryChange = {
-                query = it
-            },
-            leadingIcon = {
-                Icon("search")
-            },
-            trailingIcon = {
-                IconButton(
+        NavigationDrawer(
+            visible = isNavDrawerOpened,
+            onDismissRequest = {
+                isNavDrawerOpened = false
+            }
+        ) {
+            navigations.forEach { (text, icon) ->
+                NavigationDrawerItem(
+                    selected = icon == selectedNavigation,
                     onClick = {
-                        query = ""
+                        selectedNavigation = icon
+                        isNavDrawerOpened = false
+                    },
+                    icon = {
+                        Icon(
+                            name = icon,
+                            fill = icon == selectedNavigation
+                        )
+                    },
+                    text = {
+                        Text(text)
+                    }
+                )
+            }
+        }
+
+        Snackbar(
+            visible = isSnackbarOpened,
+            duration = SnackbarDuration.Indefinite,
+            onDismissRequest = {
+                isSnackbarOpened = false
+            },
+            displayCloseButton = true,
+            action = {
+                TextButton(
+                    onClick = {
+                        isSnackbarOpened = false
                     }
                 ) {
-                    Icon("clear")
+                    Text("Dismiss")
                 }
+            },
+            message = {
+                Text("Hello!")
             }
         )
     }
 }
+

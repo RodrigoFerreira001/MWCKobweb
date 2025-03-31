@@ -51,7 +51,7 @@ internal enum class ColorVariable(private val mdColor: String) : CSSColorValue {
     SurfaceContainerLow("var(--md-sys-color-surface-container-low)"),
     SurfaceContainer("var(--md-sys-color-surface-container)"),
     SurfaceContainerHigh("var(--md-sys-color-surface-container-high)"),
-    SurfaceContainerHighest("var(--md-sys-color-surface-container-highest");
+    SurfaceContainerHighest("var(--md-sys-color-surface-container-highest)");
 
     override fun toString() = mdColor
 

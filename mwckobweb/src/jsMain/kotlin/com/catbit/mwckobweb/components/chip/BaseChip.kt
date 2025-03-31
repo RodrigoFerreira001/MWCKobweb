@@ -1,12 +1,17 @@
-package com.catbit.mwckobweb.components.buttons.common_buttons
+package com.catbit.mwckobweb.components.chip
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import com.catbit.mwckobweb.foundation.locals.LocalIconSize
+import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.dom.GenericTag
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.attr
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
@@ -14,30 +19,42 @@ import com.varabyte.kobweb.compose.ui.toAttrs
 import org.jetbrains.compose.web.css.px
 
 @Composable
-internal fun BaseButton(
+internal fun BaseChip(
     modifier: Modifier = Modifier,
+    label: String,
     onClick: () -> Unit,
-    buttonStyle: String,
+    onRemove: (() -> Unit)? = null,
+    chipStyle: String,
     enabled: Boolean = true,
-    content: @Composable RowScope.() -> Unit
+    icon: (@Composable () -> Unit)? = null,
+    iconSize: CSSLengthOrPercentageNumericValue = 18.px
 ) {
     GenericTag(
-        name = buttonStyle,
+        name = chipStyle,
         attrs = modifier
             .cursor(Cursor.Pointer)
-            .maxHeight(40.px)
             .toAttrs {
                 if (!enabled) { attr("disabled", "") }
+                attr("label", label)
                 ref { element ->
                     element.addEventListener("click", { onClick() })
+                    onRemove?.let { element.addEventListener("remove", { onRemove() }) }
                     onDispose { }
                 }
             }
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            content()
+        icon?.let {
+            CompositionLocalProvider(
+                LocalIconSize provides iconSize
+            ) {
+                Box(
+                    modifier = Modifier.attrsModifier {
+                        attr("slot", "icon")
+                    }
+                ) {
+                    icon()
+                }
+            }
         }
     }
 }

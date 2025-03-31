@@ -2,7 +2,6 @@ package com.catbit.mwckobweb.components.search_bar
 
 import androidx.compose.runtime.Composable
 import com.catbit.mwckobweb.foundation.modifiers.textStyle
-import com.catbit.mwckobweb.foundation.modifiers.thenIfNotNull
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.UserSelect
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -32,7 +31,7 @@ fun SearchBar(
         modifier = modifier
             .color(MaterialTheme.colorScheme.onSurface)
             .backgroundColor(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(leftRight = 16.px)
+            .padding(leftRight = 4.px)
             .height(56.px)
             .clip(RectF(MaterialTheme.shape.extraLarge)),
         verticalAlignment = Alignment.CenterVertically
@@ -40,9 +39,7 @@ fun SearchBar(
 
         leadingIcon?.let {
             Box(
-                modifier = Modifier
-                    .userSelect(UserSelect.None)
-                    .margin(right = 16.px)
+                modifier = Modifier.userSelect(UserSelect.None)
             ) {
                 leadingIcon()
             }
@@ -51,11 +48,12 @@ fun SearchBar(
         TextInput(
             value = query,
             attrs = Modifier
+                .margin(leftRight = 8.px)
                 .textStyle(MaterialTheme.typography.bodyLarge)
                 .color(MaterialTheme.colorScheme.onSurface)
                 .caretColor(MaterialTheme.colorScheme.onSurface)
                 .backgroundColor(MaterialTheme.colorScheme.surfaceContainer)
-                .fillMaxWidth()
+                .weight(1f)
                 .styleModifier {
                     property("border", "none")
                     property("outline", "none")
@@ -70,9 +68,7 @@ fun SearchBar(
 
         trailingIcon?.let {
             Box(
-                modifier = Modifier
-                    .userSelect(UserSelect.None)
-                    .margin(left = 16.px)
+                modifier = Modifier.userSelect(UserSelect.None)
             ) {
                 trailingIcon()
             }

@@ -1,10 +1,12 @@
 package com.catbit.mwckobweb.components.buttons.icon_button
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import com.catbit.mwckobweb.foundation.locals.LocalIconSize
+import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.dom.GenericTag
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.attr
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.minSize
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -16,7 +18,9 @@ internal fun BaseIconButton(
     onClick: () -> Unit,
     buttonStyle: String,
     enabled: Boolean = true,
-    content: @Composable () -> Unit
+    selected: Boolean = false,
+    iconSize: CSSLengthOrPercentageNumericValue = 24.px,
+    content: @Composable () -> Unit,
 ) {
     GenericTag(
         name = buttonStyle,
@@ -27,12 +31,19 @@ internal fun BaseIconButton(
                 if (!enabled) {
                     attr("disabled", "")
                 }
+                if (selected) {
+                    attr("selected", "")
+                }
                 ref { element ->
                     element.addEventListener("click", { onClick() })
                     onDispose { }
                 }
             }
     ) {
-        content()
+        CompositionLocalProvider(
+            LocalIconSize provides iconSize
+        ) {
+            content()
+        }
     }
 }
