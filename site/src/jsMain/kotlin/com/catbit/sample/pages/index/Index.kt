@@ -51,6 +51,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.navigation.Link
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.shapes.RectF
 import com.varabyte.kobweb.silk.theme.shapes.clip
@@ -969,7 +970,6 @@ fun Index() {
 
         Snackbar(
             visible = isSnackbarOpened,
-            duration = SnackbarDuration.Indefinite,
             onDismissRequest = {
                 isSnackbarOpened = false
             },

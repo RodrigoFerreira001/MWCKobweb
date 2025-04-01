@@ -24,6 +24,7 @@ fun NavigationRail(
 ) {
     Column(
         modifier = modifier
+            .minWidth(80.px)
             .overflow {
                 y(Overflow.Auto)
                 x(Overflow.Hidden)
