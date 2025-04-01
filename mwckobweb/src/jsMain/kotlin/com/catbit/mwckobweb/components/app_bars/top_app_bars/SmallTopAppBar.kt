@@ -27,7 +27,7 @@ fun SmallTopAppBar(
 ) {
     Row(
         modifier = modifier
-            .height(64.px)
+            .minHeight(64.px)
             .overflow(Overflow.Hidden)
             .backgroundColor(colors.containerColor),
         verticalAlignment = Alignment.CenterVertically,

@@ -24,7 +24,10 @@ fun NavigationRail(
 ) {
     Column(
         modifier = modifier
-            .overflow(Overflow.Auto)
+            .overflow {
+                y(Overflow.Auto)
+                x(Overflow.Hidden)
+            }
             .background(MaterialTheme.colorScheme.surface)
             .padding(
                 topBottom = verticalPadding,

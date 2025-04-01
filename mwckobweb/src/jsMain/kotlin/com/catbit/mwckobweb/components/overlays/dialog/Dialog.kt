@@ -8,6 +8,7 @@ import com.catbit.mwckobweb.foundation.modifiers.then
 import com.catbit.mwckobweb.foundation.modifiers.thenIf
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
+import com.varabyte.kobweb.compose.css.PointerEvents
 import com.varabyte.kobweb.compose.css.UserSelect
 import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -56,6 +57,9 @@ fun Dialog(
                 }
             }
             .thenIf(changeZIndex) { zIndex(1) }
+            .thenIf(!visible) {
+                pointerEvents(PointerEvents.None)
+            }
             .thenIf(visible) {
                 onClick { if (isCancellable) onDismissRequest() }
             }

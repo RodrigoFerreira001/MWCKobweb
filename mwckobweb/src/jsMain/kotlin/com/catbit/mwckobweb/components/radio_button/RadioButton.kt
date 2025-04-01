@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.dom.GenericTag
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.minSize
 import com.varabyte.kobweb.compose.ui.toAttrs
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.CSSSizeValue
@@ -24,20 +25,22 @@ fun RadioButton(
 ) {
     GenericTag(
         name = "md-radio",
-        attrs = modifier.toAttrs {
-            if (selected) attr("checked", "")
-            if (!enabled) attr("disabled", "")
-            groupName?.let { attr("name", it) }
-            attr("value", value)
-            style {
-                property("--md-radio-icon-color", iconColor)
-                property("--md-radio-selected-icon-color", selectedIconColor)
-                property("--md-radio-icon-size", iconSize.toString())
+        attrs = modifier
+            .minSize(20.px)
+            .toAttrs {
+                if (selected) attr("checked", "")
+                if (!enabled) attr("disabled", "")
+                groupName?.let { attr("name", it) }
+                attr("value", value)
+                style {
+                    property("--md-radio-icon-color", iconColor)
+                    property("--md-radio-selected-icon-color", selectedIconColor)
+                    property("--md-radio-icon-size", iconSize.toString())
+                }
+                ref { element ->
+                    element.addEventListener("change", { onSelect(value) })
+                    onDispose { }
+                }
             }
-            ref { element ->
-                element.addEventListener("change", { onSelect(value) })
-                onDispose { }
-            }
-        }
     )
 }

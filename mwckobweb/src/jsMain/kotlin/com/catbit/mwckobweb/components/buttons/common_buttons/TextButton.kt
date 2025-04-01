@@ -14,7 +14,7 @@ fun TextButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    contentColor: CSSColorValue = MaterialTheme.colorScheme.outline,
+    contentColor: CSSColorValue = MaterialTheme.colorScheme.primary,
     font: FontFamily? = MaterialTheme.typography.labelLarge.fontFamily,
     content: @Composable RowScope.() -> Unit
 ) {

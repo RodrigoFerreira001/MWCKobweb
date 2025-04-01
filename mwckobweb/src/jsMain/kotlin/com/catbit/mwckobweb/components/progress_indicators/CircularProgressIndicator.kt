@@ -3,6 +3,7 @@ package com.catbit.mwckobweb.components.progress_indicators
 import androidx.compose.runtime.Composable
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.minSize
 import com.varabyte.kobweb.compose.ui.styleModifier
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.CSSSizeValue
@@ -20,6 +21,7 @@ fun CircularProgressIndicator(
 ) {
     BaseProgressIndicator(
         modifier = modifier
+            .minSize(48.px)
             .styleModifier {
                 property("--md-circular-progress-active-indicator-color", progressColor)
                 property("--md-circular-progress-size", progressSize.toString())

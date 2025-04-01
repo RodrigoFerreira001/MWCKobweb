@@ -7,11 +7,10 @@ import com.catbit.mwckobweb.components.icons.Icon
 import com.catbit.mwckobweb.components.ripple.RippleContainer
 import com.catbit.mwckobweb.foundation.locals.LocalTextStyle
 import com.catbit.mwckobweb.foundation.modifiers.then
+import com.catbit.mwckobweb.foundation.modifiers.thenIf
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
-import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.Transition
-import com.varabyte.kobweb.compose.css.TransitionTimingFunction
-import com.varabyte.kobweb.compose.css.UserSelect
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -54,6 +53,9 @@ fun Snackbar(
 
     Box(
         modifier = modifier
+            .thenIf(!visible) {
+                pointerEvents(PointerEvents.None)
+            }
             .id("snackbar-overlay")
             .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter

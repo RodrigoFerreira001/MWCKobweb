@@ -32,14 +32,17 @@ fun SearchBar(
             .color(MaterialTheme.colorScheme.onSurface)
             .backgroundColor(MaterialTheme.colorScheme.surfaceContainer)
             .padding(leftRight = 4.px)
-            .height(56.px)
+            .minHeight(56.px)
             .clip(RectF(MaterialTheme.shape.extraLarge)),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         leadingIcon?.let {
             Box(
-                modifier = Modifier.userSelect(UserSelect.None)
+                modifier = Modifier
+                    .minSize(48.px)
+                    .userSelect(UserSelect.None),
+                contentAlignment = Alignment.Center
             ) {
                 leadingIcon()
             }

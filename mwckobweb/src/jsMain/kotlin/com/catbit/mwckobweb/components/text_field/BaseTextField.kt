@@ -8,7 +8,9 @@ import com.varabyte.kobweb.compose.dom.GenericTag
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.toAttrs
+import org.jetbrains.compose.web.css.px
 import org.w3c.dom.HTMLElement
 
 @Composable
@@ -45,6 +47,7 @@ internal fun BaseTextField(
     GenericTag(
         name = style,
         attrs = modifier
+            .minHeight(56.px)
             .toAttrs {
                 attr("value", value)
                 attr("type", inputType.type)

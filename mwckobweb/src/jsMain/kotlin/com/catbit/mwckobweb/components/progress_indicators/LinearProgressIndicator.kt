@@ -5,6 +5,7 @@ import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.styleModifier
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.CSSSizeValue
@@ -26,6 +27,7 @@ fun LinearProgressIndicator(
 ) {
     BaseProgressIndicator(
         modifier = modifier
+            .minHeight(4.px)
             .attrsModifier {
                 buffer?.let { attr("buffer", buffer.toString()) }
                 attr("max", maxValue.toString())

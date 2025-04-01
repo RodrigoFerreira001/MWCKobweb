@@ -7,6 +7,7 @@ import com.catbit.mwckobweb.foundation.modifiers.then
 import com.catbit.mwckobweb.foundation.modifiers.thenIf
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.PointerEvents
 import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -47,6 +48,9 @@ fun NavigationDrawer(
                 if (!visible) { changeZIndex = false }
             }
             .thenIf(changeZIndex) { zIndex(1) }
+            .thenIf(!visible) {
+                pointerEvents(PointerEvents.None)
+            }
             .thenIf(visible) {
                 onClick { if (isCancellable) onDismissRequest() }
             }

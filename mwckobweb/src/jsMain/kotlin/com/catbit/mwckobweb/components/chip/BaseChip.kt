@@ -7,14 +7,10 @@ import com.varabyte.kobweb.compose.css.CSSLengthOrPercentageNumericValue
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.dom.GenericTag
 import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.foundation.layout.RowScope
-import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
-import com.varabyte.kobweb.compose.ui.modifiers.attr
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
-import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.toAttrs
 import org.jetbrains.compose.web.css.px
 
@@ -32,6 +28,7 @@ internal fun BaseChip(
     GenericTag(
         name = chipStyle,
         attrs = modifier
+            .minHeight(32.px)
             .cursor(Cursor.Pointer)
             .toAttrs {
                 if (!enabled) { attr("disabled", "") }

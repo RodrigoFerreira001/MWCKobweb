@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import com.catbit.mwckobweb.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.compose.dom.GenericTag
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.minSize
 import com.varabyte.kobweb.compose.ui.toAttrs
 import org.jetbrains.compose.web.css.CSSColorValue
+import org.jetbrains.compose.web.css.px
 
 @Composable
 fun Checkbox(
@@ -20,20 +22,22 @@ fun Checkbox(
 ) {
     GenericTag(
         name = "md-checkbox",
-        attrs = modifier.toAttrs {
-            if (checked) attr("checked", "")
-            if (indeterminate) attr("indeterminate", "")
-            if (!enabled) attr("disabled", "")
+        attrs = modifier
+            .minSize(18.px)
+            .toAttrs {
+                if (checked) attr("checked", "")
+                if (indeterminate) attr("indeterminate", "")
+                if (!enabled) attr("disabled", "")
 
-            style {
-                property("--md-checkbox-outline-color", outlineColor)
-                property("--md-checkbox-selected-container-color", selectedContainerColor)
-                property("--md-checkbox-selected-icon-color", selectedIconColor)
+                style {
+                    property("--md-checkbox-outline-color", outlineColor)
+                    property("--md-checkbox-selected-container-color", selectedContainerColor)
+                    property("--md-checkbox-selected-icon-color", selectedIconColor)
+                }
+                ref { element ->
+                    element.addEventListener("change", { onCheckChange(!checked) })
+                    onDispose { }
+                }
             }
-            ref { element ->
-                element.addEventListener("change", { onCheckChange(!checked) })
-                onDispose { }
-            }
-        }
     )
 }
