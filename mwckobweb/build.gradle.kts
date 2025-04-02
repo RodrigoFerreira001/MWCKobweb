@@ -1,4 +1,5 @@
 import com.varabyte.kobweb.gradle.library.util.configAsKobwebLibrary
+import com.vanniktech.maven.publish.SonatypeHost
 import kotlinx.html.HEAD
 import kotlinx.html.link
 import kotlinx.html.script
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kobweb.library)
+    alias(libs.plugins.vanniktech.publish)
 }
 
 kobweb {
@@ -102,4 +104,48 @@ fun ListProperty<HEAD.() -> Unit>.addMaterialWebScripts() {
             }
         }
     }
+}
+
+mavenPublishing {
+    // Define coordinates for the published artifact
+    coordinates(
+        groupId = "dev.catbit",
+        artifactId = "mwckobweb",
+        version = "1.0.0"
+    )
+
+    // Configure POM metadata for the published artifact
+    pom {
+        name.set("MWC for Kobweb")
+        description.set("A Material Web Components wrapper for Kobweb")
+        inceptionYear.set("2025")
+        url.set("https://github.com/RodrigoFerreira001/MWCKobweb")
+
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+
+        // Specify developers information
+        developers {
+            developer {
+                id.set("RodrigoFerreira001")
+                name.set("Rodrigo Ferreira Rodrigues")
+                email.set("catbit.dev@gmail.com")
+            }
+        }
+
+        // Specify SCM information
+        scm {
+            url.set("https://mwc-for-kobweb.web.app/")
+        }
+    }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
