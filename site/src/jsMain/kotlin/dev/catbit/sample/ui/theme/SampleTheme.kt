@@ -2,7 +2,7 @@ package dev.catbit.sample.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import dev.catbit.mwckobweb.foundation.theme.MaterialTheme
+import dev.catbit.kobwebmaterial.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 
 @Composable

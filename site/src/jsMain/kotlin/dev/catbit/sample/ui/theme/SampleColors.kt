@@ -1,6 +1,6 @@
 package dev.catbit.sample.ui.theme
 
-import dev.catbit.mwckobweb.foundation.color.ColorScheme
+import dev.catbit.kobwebmaterial.foundation.color.ColorScheme
 import com.varabyte.kobweb.compose.ui.graphics.Color
 
 val lightColorScheme = ColorScheme(

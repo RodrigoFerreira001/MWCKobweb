@@ -34,7 +34,7 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
-            implementation(project(":mwckobweb"))
+            implementation(project(":kobweb-material"))
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.html.core)

@@ -1,4 +1,4 @@
-rootProject.name = "MWCKobweb"
+rootProject.name = "kobweb-material"
 
 pluginManagement {
     repositories {
@@ -28,5 +28,5 @@ gradle.settingsEvaluated {
     dependencyResolutionManagement.repositories { kobwebSnapshots() }
 }
 
-include(":mwckobweb")
+include(":kobweb-material")
 include(":site")

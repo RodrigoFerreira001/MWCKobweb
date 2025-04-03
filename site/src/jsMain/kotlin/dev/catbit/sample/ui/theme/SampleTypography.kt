@@ -1,7 +1,7 @@
 package dev.catbit.sample.ui.theme
 
-import dev.catbit.mwckobweb.foundation.text.FontFamily
-import dev.catbit.mwckobweb.foundation.text.Typography
+import dev.catbit.kobwebmaterial.foundation.text.FontFamily
+import dev.catbit.kobwebmaterial.foundation.text.Typography
 
 val SampleTypography
     get() : Typography {
