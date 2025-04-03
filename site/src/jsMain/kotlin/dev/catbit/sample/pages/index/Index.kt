@@ -1,6 +1,20 @@
 package dev.catbit.sample.pages.index
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.UserSelect
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
+import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.navigation.Link
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import com.varabyte.kobweb.silk.theme.shapes.RectF
+import com.varabyte.kobweb.silk.theme.shapes.clip
 import dev.catbit.mwckobweb.components.app_bars.top_app_bars.CenterAlignedTopAppBar
 import dev.catbit.mwckobweb.components.app_bars.top_app_bars.LargeTopAppBar
 import dev.catbit.mwckobweb.components.app_bars.top_app_bars.MediumTopAppBar
@@ -23,12 +37,8 @@ import dev.catbit.mwckobweb.components.navigation.NavigationBar
 import dev.catbit.mwckobweb.components.navigation.NavigationBarItem
 import dev.catbit.mwckobweb.components.navigation.NavigationRail
 import dev.catbit.mwckobweb.components.navigation.NavigationRailItem
-import dev.catbit.mwckobweb.components.overlays.dialog.Dialog
-import dev.catbit.mwckobweb.components.overlays.modal_sheet.ModalSheet
-import dev.catbit.mwckobweb.components.overlays.navigation_drawer.NavigationDrawer
 import dev.catbit.mwckobweb.components.overlays.navigation_drawer.NavigationDrawerItem
-import dev.catbit.mwckobweb.components.overlays.snackbar.Snackbar
-import dev.catbit.mwckobweb.components.overlays.snackbar.SnackbarDuration
+import dev.catbit.mwckobweb.components.overlays.overlay_container.OverlaysContainer
 import dev.catbit.mwckobweb.components.progress_indicators.CircularProgressIndicator
 import dev.catbit.mwckobweb.components.progress_indicators.LinearProgressIndicator
 import dev.catbit.mwckobweb.components.radio_button.RadioButton
@@ -40,31 +50,11 @@ import dev.catbit.mwckobweb.components.text_field.FilledTextField
 import dev.catbit.mwckobweb.components.text_field.OutlinedTextField
 import dev.catbit.mwckobweb.foundation.modifiers.textStyle
 import dev.catbit.mwckobweb.foundation.theme.MaterialTheme
-import com.varabyte.kobweb.compose.css.Overflow
-import com.varabyte.kobweb.compose.css.UserSelect
-import com.varabyte.kobweb.compose.foundation.layout.Arrangement
-import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.ui.Alignment
-import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.core.Page
-import com.varabyte.kobweb.silk.components.navigation.Link
-import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.shapes.RectF
-import com.varabyte.kobweb.silk.theme.shapes.clip
 import org.jetbrains.compose.web.css.px
 
 @Page("/")
 @Composable
 fun Index() {
-
-    var isNavDrawerOpened by remember { mutableStateOf(false) }
-    var isModalSheetOpened by remember { mutableStateOf(false) }
-    var isDialogOpened by remember { mutableStateOf(false) }
-    var isSnackbarOpened by remember { mutableStateOf(false) }
 
     var selectedNavigation by remember { mutableStateOf("home") }
     val navigations = listOf(
@@ -73,7 +63,7 @@ fun Index() {
         "Settings" to "settings"
     )
 
-    Box(
+    OverlaysContainer(
         modifier = Modifier.fillMaxSize()
     ) {
         Row(
@@ -86,7 +76,30 @@ fun Index() {
                 menu = {
                     IconButton(
                         onClick = {
-                            isNavDrawerOpened = true
+                            navigationDrawerState.show(
+                                onDismissRequest = {
+                                    navigationDrawerState.dismiss()
+                                }
+                            ) {
+                                navigations.forEach { (text, icon) ->
+                                    NavigationDrawerItem(
+                                        selected = icon == selectedNavigation,
+                                        onClick = {
+                                            selectedNavigation = icon
+                                            navigationDrawerState.dismiss()
+                                        },
+                                        icon = {
+                                            Icon(
+                                                name = icon,
+                                                fill = icon == selectedNavigation
+                                            )
+                                        },
+                                        text = {
+                                            Text(text)
+                                        }
+                                    )
+                                }
+                            }
                         }
                     ) {
                         Icon("menu")
@@ -689,12 +702,30 @@ fun Index() {
                 FilledButton(
                     Modifier.margin(bottom = 16.px),
                     onClick = {
-                        isDialogOpened = true
+                        dialogState.show(
+                            headline = {
+                                Text("Dialog example")
+                            },
+                            supportingText = {
+                                Text("This is a dialog example")
+                            },
+                            buttons = {
+                                TextButton(
+                                    onClick = {
+                                        dialogState.dismiss()
+                                    }
+                                ) {
+                                    Text("Ok")
+                                }
+                            },
+                            onDismissRequest = {
+                                dialogState.dismiss()
+                            }
+                        )
                     }
                 ) {
                     Text("Open Dialog")
                 }
-
 
                 Text(
                     modifier = Modifier.margin(bottom = 8.px),
@@ -705,7 +736,19 @@ fun Index() {
                 FilledButton(
                     Modifier.margin(bottom = 16.px),
                     onClick = {
-                        isModalSheetOpened = true
+                        modalSheetState.show(
+                            onDismissRequest = {
+                                modalSheetState.dismiss()
+                            }
+                        ) {
+                            FilledButton(
+                                onClick = {
+                                    modalSheetState.dismiss()
+                                }
+                            ) {
+                                Text("Close ModalSheet")
+                            }
+                        }
                     }
                 ) {
                     Text("Open ModalSheet")
@@ -720,7 +763,24 @@ fun Index() {
                 FilledButton(
                     Modifier.margin(bottom = 16.px),
                     onClick = {
-                        isSnackbarOpened = true
+                        snackbarState.show(
+                            onDismissRequest = {
+                                snackbarState.dismiss()
+                            },
+                            displayCloseButton = true,
+                            action = {
+                                TextButton(
+                                    onClick = {
+                                        snackbarState.dismiss()
+                                    }
+                                ) {
+                                    Text("Dismiss")
+                                }
+                            },
+                            message = {
+                                Text("Hello!")
+                            }
+                        )
                     }
                 ) {
                     Text("Show Snackbar")
@@ -902,91 +962,6 @@ fun Index() {
                 )
             }
         }
-
-        // Overlays
-
-        ModalSheet(
-            visible = isModalSheetOpened,
-            onDismissRequest = {
-                isModalSheetOpened = false
-            }
-        ) {
-            FilledButton(
-                onClick = {
-                    isModalSheetOpened = false
-                }
-            ) {
-                Text("Close ModalSheet")
-            }
-        }
-
-        Dialog(
-            visible = isDialogOpened,
-            headline = {
-                Text("Dialog example")
-            },
-            supportingText = {
-                Text("This is a dialog example")
-            },
-            buttons = {
-                TextButton(
-                    onClick = {
-                        isDialogOpened = false
-                    }
-                ) {
-                    Text("Ok")
-                }
-            },
-            onDismissRequest = {
-                isDialogOpened = false
-            }
-        )
-
-        NavigationDrawer(
-            visible = isNavDrawerOpened,
-            onDismissRequest = {
-                isNavDrawerOpened = false
-            }
-        ) {
-            navigations.forEach { (text, icon) ->
-                NavigationDrawerItem(
-                    selected = icon == selectedNavigation,
-                    onClick = {
-                        selectedNavigation = icon
-                        isNavDrawerOpened = false
-                    },
-                    icon = {
-                        Icon(
-                            name = icon,
-                            fill = icon == selectedNavigation
-                        )
-                    },
-                    text = {
-                        Text(text)
-                    }
-                )
-            }
-        }
-
-        Snackbar(
-            visible = isSnackbarOpened,
-            onDismissRequest = {
-                isSnackbarOpened = false
-            },
-            displayCloseButton = true,
-            action = {
-                TextButton(
-                    onClick = {
-                        isSnackbarOpened = false
-                    }
-                ) {
-                    Text("Dismiss")
-                }
-            },
-            message = {
-                Text("Hello!")
-            }
-        )
     }
 }
 

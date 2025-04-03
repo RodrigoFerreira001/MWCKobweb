@@ -69,7 +69,7 @@ fun NavigationDrawer(
                 .overflow { y(Overflow.Auto) }
                 .padding(12.px)
                 .fillMaxSize()
-                .maxWidth(360.px)
+                .maxWidth(280.px)
                 .backgroundColor(containerColor),
             verticalArrangement = Arrangement.spacedBy(4.px)
         ) {
