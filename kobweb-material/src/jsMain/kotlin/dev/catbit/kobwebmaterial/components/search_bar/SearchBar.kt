@@ -31,16 +31,16 @@ fun SearchBar(
         modifier = modifier
             .color(MaterialTheme.colorScheme.onSurface)
             .backgroundColor(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(leftRight = 4.px)
+            .padding(leftRight = 16.px)
             .minHeight(56.px)
             .clip(RectF(MaterialTheme.shape.extraLarge)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         leadingIcon?.let {
             Box(
                 modifier = Modifier
-                    .minSize(48.px)
+                    .minSize(24.px)
+                    .margin(right = 16.px)
                     .userSelect(UserSelect.None),
                 contentAlignment = Alignment.Center
             ) {
@@ -51,7 +51,6 @@ fun SearchBar(
         TextInput(
             value = query,
             attrs = Modifier
-                .margin(leftRight = 8.px)
                 .textStyle(MaterialTheme.typography.bodyLarge)
                 .color(MaterialTheme.colorScheme.onSurface)
                 .caretColor(MaterialTheme.colorScheme.onSurface)
@@ -71,7 +70,10 @@ fun SearchBar(
 
         trailingIcon?.let {
             Box(
-                modifier = Modifier.userSelect(UserSelect.None)
+                modifier = Modifier
+                    .minSize(24.px)
+                    .margin(left = 16.px)
+                    .userSelect(UserSelect.None)
             ) {
                 trailingIcon()
             }

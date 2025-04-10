@@ -18,7 +18,10 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.loadFromLocalStorage
 import com.varabyte.kobweb.silk.theme.colors.saveToLocalStorage
 import com.varabyte.kobweb.silk.theme.colors.systemPreference
+import dev.catbit.sample.di.SampleModules
 import org.jetbrains.compose.web.css.vw
+import org.koin.compose.KoinApplication
+import org.koin.core.KoinApplication
 
 private const val COLOR_MODE_KEY = "sample:colorMode"
 
@@ -37,15 +40,22 @@ fun AppEntry(content: @Composable () -> Unit) {
                 colorMode.saveToLocalStorage(COLOR_MODE_KEY)
             }
 
-            SampleTheme {
-                Surface(
-                    SmoothColorStyle.toModifier()
-                        .height(100.dvh)
-                        .width(100.vw)
-                ) {
-                    content()
+            KoinApplication(
+                application = {
+                    modules(SampleModules.modules)
+                }
+            ) {
+                SampleTheme {
+                    Surface(
+                        SmoothColorStyle.toModifier()
+                            .height(100.dvh)
+                            .width(100.vw)
+                    ) {
+                        content()
+                    }
                 }
             }
+
         }
     }
 }

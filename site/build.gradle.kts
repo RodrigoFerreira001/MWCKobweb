@@ -1,5 +1,6 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
+import kotlinx.html.script
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -24,6 +25,13 @@ kobweb {
                         href = "https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
                     }
                 }
+
+                add {
+                    script {
+                        type = "module"
+                        src = "https://cdn.jsdelivr.net/npm/zero-md@3?register"
+                    }
+                }
             }
         }
     }
@@ -38,8 +46,13 @@ kotlin {
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.html.core)
+            implementation(libs.compose.viewmodel)
             implementation(libs.kobweb.core)
             implementation(libs.kobweb.silk)
+            implementation(libs.koin.core)
+            implementation(libs.koin.core.viewmodel)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
     }
 }

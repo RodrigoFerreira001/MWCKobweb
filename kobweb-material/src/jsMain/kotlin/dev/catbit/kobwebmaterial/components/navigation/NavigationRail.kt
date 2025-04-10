@@ -18,7 +18,7 @@ fun NavigationRail(
     modifier: Modifier = Modifier,
     menu: (@Composable () -> Unit)? = null,
     floatingActionButton: (@Composable () -> Unit)? = null,
-    verticalPadding: CSSLengthOrPercentageNumericValue = 44.px,
+    verticalPadding: CSSLengthOrPercentageNumericValue = 24.px,
     contentArrangement: Arrangement.Vertical = Arrangement.spacedBy(12.px, Alignment.Top),
     content: @Composable ColumnScope.() -> Unit
 ) {

@@ -2,8 +2,9 @@ package dev.catbit.sample.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import dev.catbit.kobwebmaterial.foundation.theme.MaterialTheme
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import dev.catbit.kobwebmaterial.foundation.shape.Shape
+import dev.catbit.kobwebmaterial.foundation.theme.MaterialTheme
 
 @Composable
 fun SampleTheme(
@@ -15,6 +16,7 @@ fun SampleTheme(
     MaterialTheme(
         colorScheme = if (colorMode.isDark) darkColorScheme else lightColorScheme,
         typography = SampleTypography,
+        shape = Shape(),
         content = content
     )
 }
